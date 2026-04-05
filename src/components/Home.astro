@@ -1,0 +1,113 @@
+---
+// src/pages/index.astro
+import CatalogCard from "../components/CatalogCard.astro";
+---
+
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <title>Catálogos 2026 - Beauty Pro</title>
+        <meta name="viewport" content="width=device-width" />
+    </head>
+    <body>
+        <main class="container">
+            <h1>Descarga de Cátalogos 2026</h1>
+
+            <CatalogCard
+                title="Novaventa Catalogo 1"
+                id="nova1"
+                placeholder="Ej: 5"
+            />
+            <CatalogCard
+                title="Novaventa Catalogo 2"
+                id="nova2"
+                placeholder="Ej: 5"
+            />
+            <CatalogCard title="Yanbal" id="yanbal" placeholder="Ej: 4" />
+            <CatalogCard title="Carmel" id="carmel" placeholder="Ej: 07" />
+        </main>
+
+        <style>
+            :root {
+                --bg-color: #f3e8ff;
+            }
+            body {
+                background-color: var(--bg-color);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                font-family: system-ui, sans-serif;
+            }
+            .container {
+                background: white;
+                padding: 2.5rem;
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 450px;
+            }
+            h1 {
+                color: #7e22ce;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+        </style>
+
+        <script is:inline>
+            const buttons = document.querySelectorAll(".download-btn");
+
+            buttons.forEach((button) => {
+                button.addEventListener("click", async () => {
+                    const brand = button.getAttribute("data-brand");
+                    const inputId = button.getAttribute("data-input");
+                    const inputElement = document.getElementById(inputId);
+                    const val = inputElement.value;
+
+                    if (!val) return alert("Ingresa un número de campaña.");
+
+                    const valPadded = val.padStart(2, "0");
+
+                    // URLs originales extraídas de tu configuración [cite: 1]
+                    const catalogUrls = {
+                        "Novaventa Catalogo 1": `https://catalogo.novaventa.com/novaventa/2026/prestigio/c${val}/prestigio-c${val}/GetPDF.ashx`,
+                        "Novaventa Catalogo 2": `https://catalogo.novaventa.com/novaventa/2026/tradicional/c${val}/tradicional-c${val}/GetPDF.ashx`,
+                        Yanbal: `https://docs.yanbal.com/cdigital/co/2026/c${val}/oficial/GetPDF.ashx`,
+                        Carmel: `https://catalogo.carmel.com.co/2026c${valPadded}/c${valPadded}ed01-2026/GetPDF.ashx`,
+                    };
+
+                    const targetUrl = catalogUrls[brand];
+                    const fileName = `${brand.replace(/\s+/g, "_")}_C${val}.pdf`;
+
+                    try {
+                        button.innerText = "Descargando...";
+                        button.disabled = true;
+
+                        const proxyUrl = `/api/descargar-pdf?url=${encodeURIComponent(targetUrl)}&name=${encodeURIComponent(fileName)}`;
+
+                      
+                        
+                        const link = document.createElement("a");
+                        link.href = proxyUrl;
+                        link.download = fileName;
+                        document.body.appendChild(link);
+                    
+                            
+                        link.click();
+                      
+                        document.body.removeChild(link);
+
+
+                    } catch (e) {
+                        alert("Error al procesar la descarga.");
+                        console.error("Error:", e);
+                    } finally {
+                        button.innerText = "Descargar";
+                        button.disabled = false;
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
