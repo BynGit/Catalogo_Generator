@@ -1,46 +1,71 @@
-# Astro Starter Kit: Basics
+# Catálogos Generator
+
+Aplicación web desarrollada con Astro para facilitar la descarga de catálogos en PDF. El usuario selecciona una marca, ingresa el número de campaña y solicita el archivo correspondiente.
+
+## Catálogos disponibles
+
+- Novaventa Catálogo 1
+- Novaventa Catálogo 2
+- Yanbal
+- Carmel
+- Pacifika
+- Loguin
+
+Los enlaces actualmente están configurados para catálogos de 2026. La disponibilidad depende de que cada sitio de origen publique el catálogo de la campaña solicitada.
+
+## Requisitos
+
+- Node.js `>=22.12.0`
+- pnpm
+
+## Instalación y ejecución
+
+Desde la raíz del proyecto, instala las dependencias y ejecuta el servidor local:
 
 ```sh
-pnpm create astro@latest -- --template basics
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Astro mostrará en la terminal la dirección local, que normalmente es `http://localhost:4321`.
 
-## 🚀 Project Structure
+Para generar y previsualizar una compilación de producción:
 
-Inside of your Astro project, you'll see the following folders and files:
+```sh
+pnpm build
+pnpm preview
+```
+
+## Uso
+
+1. Selecciona el campo de la marca cuyo catálogo necesitas.
+2. Ingresa el número de campaña.
+3. Presiona **Descargar** y espera mientras se solicita el PDF.
+
+El servidor consulta la URL del catálogo y devuelve el archivo para su descarga. Si el catálogo no está disponible en el sitio de origen, la solicitud puede fallar.
+
+## Estructura principal
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+public/                 Recursos estáticos, incluido el ícono de carga
+src/
+	components/           Interfaz de catálogos y controles de descarga
+	layouts/              Estructura compartida de página
+	pages/
+		api/                 Endpoint que obtiene y devuelve los PDF
+		index.astro          Página principal
+	styles/                Estilos de la página
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Comandos disponibles
 
-## 🧞 Commands
+| Comando          | Descripción                                     |
+| ---------------- | ----------------------------------------------- |
+| `pnpm dev`       | Inicia el servidor de desarrollo.               |
+| `pnpm build`     | Genera la compilación de producción en `dist/`. |
+| `pnpm preview`   | Sirve localmente la compilación generada.       |
+| `pnpm astro ...` | Ejecuta comandos de la CLI de Astro.            |
 
-All commands are run from the root of the project, from a terminal:
+## Uso del proyecto
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Este proyecto es sin fines de lucro y se utiliza únicamente para ayudar en la descarga de catálogos de revistas.
